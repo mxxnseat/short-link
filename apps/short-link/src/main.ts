@@ -1,18 +1,24 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
-import {
-  NestFastifyApplication,
-  FastifyAdapter,
-} from '@nestjs/platform-fastify';
+import { Logger } from 'nestjs-pino';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
-    new FastifyAdapter(),
     {
+      transport: Transport.RMQ,
+      options: {
+        urls: ['amqp://admin:admin123@localhost:5672'],
+        queue: 'short-link-queue',
+        queueOptions: { durable: false },
+      },
       bufferLogs: true,
     },
   );
-  await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
+  app.useLogger(app.get(Logger));
+
+  await app.listen();
 }
-bootstrap();
+
+void bootstrap();

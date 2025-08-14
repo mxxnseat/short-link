@@ -27,7 +27,10 @@
       "@app/common": ["libs/common/src"],
       "@app/common/*": ["libs/common/src/*"],
       "@app/core": ["libs/core/src"],
-      "@app/core/*": ["libs/core/src/*"]
+      "@app/core/*": ["libs/core/src/*"],
+      "@short-link/*": ["apps/short-link/src/*"],
+      "@api/*": ["apps/api/src/*"],
+      "@websocket-server/*": ["apps/websocket-server/src/*"]
     }
   },
   "ts-node": {

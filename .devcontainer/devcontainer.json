@@ -1,0 +1,40 @@
+{
+  "name": "Short Link Development",
+  "dockerComposeFile": ["./docker-compose.yml", "../docker-compose.yml"],
+  "service": "app",
+  "workspaceFolder": "/app",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "runServices": ["rabbitmq", "redis"],
+  "waitFor": "postCreateCommand",
+  "forwardPorts": [3000, 3001, 3002, 5672, 15672, 6379],
+  "portsAttributes": {
+    "3000": {
+      "label": "Short Link App",
+      "onAutoForward": "notify"
+    },
+    "3001": {
+      "label": "API",
+      "onAutoForward": "notify"
+    },
+    "3002": {
+      "label": "WebSocket Server",
+      "onAutoForward": "notify"
+    },
+    "5672": {
+      "label": "RabbitMQ",
+      "onAutoForward": "notify"
+    },
+    "15672": {
+      "label": "RabbitMQ Management",
+      "onAutoForward": "notify"
+    },
+    "6379": {
+      "label": "Redis",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "yarn install",
+  "remoteUser": "node"
+}
